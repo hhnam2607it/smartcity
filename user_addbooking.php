@@ -12,7 +12,7 @@ include 'config.php';
 
 	if ($qr) {
 			header("Location:user_booking.php?success=Thêm thành công");
-			header("Location:user_dashboard.php");
+
 		} else {
 			header("Location:user_booking.php?error=Lỗi ");
 		}
