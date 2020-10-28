@@ -5,7 +5,7 @@ if(isset($_SESSION['user_data'])){
 		header("Location:admin_dasboard.php");
 	}
 	else{
-		header("Location:user_dasboard.php");	
+		header("Location:user_dasboard.php");
 	}
 }
 ?>
@@ -14,7 +14,7 @@ if(isset($_SESSION['user_data'])){
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0F">
     <title>Đăng nhập</title>
     <!-- Include Bootrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -28,10 +28,15 @@ if(isset($_SESSION['user_data'])){
 
 <body >
 
+<<<<<<< Updated upstream
     <h1 class="h3 mb-3 font-weight-normal" style="text-align:center">Hệ thống quản lý đặt xe</h1>
     
+=======
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align:center">Hệ thống quản lý sinh viên</h1>
+
+>>>>>>> Stashed changes
     <div class="container">
-    
+
    	<div class="row">
    		<?php if(isset($_REQUEST['error'])){ ?>
    		<div class="col-lg-12">
@@ -58,9 +63,9 @@ if(isset($_SESSION['user_data'])){
 		        <label for="inputPassword" class="sr-only">Password</label>
 		        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
 		    </div>
-		    <div class="form-group">
-		        <button class="btn btn-lg btn-primary btn-block" type="submit">Đăng nhập</button>
-		    </div>
+			    <div class="form-group">
+			        <button class="btn btn-lg btn-primary btn-block" type="submit">Đăng nhập</button>
+			    </div>
 	      </form>
 		</div>
 	    <div class="col-lg-4">

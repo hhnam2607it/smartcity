@@ -3,16 +3,13 @@ session_start();
 include 'config.php';
 if (isset($_SESSION['user_data'])) {
 	if ($_SESSION['user_data']['usertype'] != 2) {
-		
-		header("Location:admin_dasboard.php");
+		header("Location:user_dashboard.php");
 	}
 }
+
 $data = array();
 $count=0;
-$qr = mysqli_query($con, "select * from user");
-while ($row = mysqli_fetch_assoc($qr)) {
-	array_push($data, $row);
-}
+$qr = mysqli_query($con, "select * from bookcar where exists (select * from bookcar where status=0)" );
 
 
 ?>
@@ -60,7 +57,7 @@ while ($row = mysqli_fetch_assoc($qr)) {
 
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="teacher_dasboard.php"> Student</a>
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dashboard.php"> User</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -74,50 +71,51 @@ while ($row = mysqli_fetch_assoc($qr)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php include 'student_menu.php'?>
+            <?php include 'user_menu.php'?>
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm" style="text-align: center;">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Họ tên</th>
-                                <th>Email</th>
-                                <th>Công việc</th>
-                                <th>Điện thoại</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-							foreach ($data as $d) {
-							?>
-                            <tr>
-                                <td><?php echo ++$count; ?></td>
-                                <td><?php echo $d['name']; ?></td>
-                                <td><?php echo $d['email']; ?></td>
-                                <td>
-                                    <?php if ($d['usertype'] == '1') {
-											echo "Giáo viên";
-										} else {
-											echo "Học sinh";
-										} ?>
-                                </td>
-                                <td><?php echo $d['telephone']; ?></td>
+              <div class="col-md-10 ml-sm-auto col-lg-8 px-md-4">
+                <form action="user_addbooking.php" method="post">
+                  <div class="booking">
+                    <br><br>
+                    <select name="start">
+                       <option value=”0″>--Chọn điểm đi--</option>
+                       <option value=”battery″>Battery Area</option>
+                       <option value=”cinema″>Cinema</option>
+                       <option value=”home″>Home</option>
+                       <option value=”school″>School</option>
+                       <option value=”shopping″>Shopping Center</option>
+                       <option value="zoo">Zoo</option>
+                    </select>
+
+                    <select name="stop">
+                       <option value="0">--Chọn điểm đến--</option>
+                       <option value="battery">Battery Area</option>
+                       <option value="cinema">Cinema</option>
+                       <option value="home">Home</option>
+                       <option value="school">School</option>
+                       <option value="shopping">Shopping Center</option>
+                       <option value="zoo">Zoo</option>
+                    </select>
+                    <?php if ($qr) {
+                        echo "ko dc chon";
+                      } else {
+                        echo "chon de";
+                      } ?>
+
+                    <button class="btn btn-sm btn-dark" type="submit">Đặt xe</button>
 
 
-                                <td><a class="btn btn-info" href="view_info.php?id=<?php echo $d['id']; ?>">
-                                        Xem</a>
-                                </td>
 
-                            </tr>
-                            <?php
-							}
-							?>
-                        </tbody>
-                    </table>
-                </div>
+
+                  </div>
+
+                </form>
+                <br><br>
+
+              </div>
+                <center><img src="map.png" style="width:1000px;height:450px"></center>
+
             </main>
         </div>
     </div>

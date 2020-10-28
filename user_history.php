@@ -2,14 +2,14 @@
 session_start();
 include 'config.php';
 if (isset($_SESSION['user_data'])) {
-	if ($_SESSION['user_data']['usertype'] != 1) {
+	if ($_SESSION['user_data']['usertype'] != 2) {
 		header("Location:user_dashboard.php");
 	}
 }
-
+$id = $_SESSION['user_data']['id'];
 $data = array();
 $count=0;
-$qr = mysqli_query($con, "select * from user");
+$qr = mysqli_query($con, "select * from bookcar where id_user=$id");
 while ($row = mysqli_fetch_assoc($qr)) {
 	array_push($data, $row);
 }
@@ -60,7 +60,7 @@ while ($row = mysqli_fetch_assoc($qr)) {
 
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="teacher_dasboard.php"> Admin</a>
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dashboard.php"> User</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -74,16 +74,44 @@ while ($row = mysqli_fetch_assoc($qr)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php include 'admin_menu.php'?>
+            <?php include 'user_menu.php'?>
 
-<<<<<<< Updated upstream
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-4">
-                <img src="anhmap.png"width="100%" height="auto";>
-=======
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 ">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
-                <img src="map.png" style="width:auto;height:auto">
->>>>>>> Stashed changes
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm" style="text-align: center;">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Điểm đi</th>
+                                <th>Điểm đến</th>
+                                <th>Trạng thái</th>
+                                <th>Thời gian</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+							foreach ($data as $d) {
+							?>
+                            <tr>
+                                <td><?php echo ++$count; ?></td>
+                                <td><?php echo $d['pos_start_id']; ?></td>
+                                <td><?php echo $d['end_start_id']; ?></td>
+                                <td>
+                                    <?php if ($d['status'] == '0') {
+											echo "Đang xử lý";
+										} else {
+											echo "Hoàn thành";
+										} ?>
+                                <td><?php echo $d['created_at']; ?></td>
+                            </tr>
+                            <?php
+							}
+							?>
+                        </tbody>
+                    </table>
+                </div>
             </main>
         </div>
     </div>

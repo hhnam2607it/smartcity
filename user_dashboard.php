@@ -2,11 +2,11 @@
 session_start();
 include 'config.php';
 if (isset($_SESSION['user_data'])) {
-	if ($_SESSION['user_data']['usertype'] != 1) {
-		header("Location:user_dashboard.php");
+	if ($_SESSION['user_data']['usertype'] != 2) {
+
+		header("Location:admin_dashboard.php");
 	}
 }
-
 $data = array();
 $count=0;
 $qr = mysqli_query($con, "select * from user");
@@ -60,7 +60,7 @@ while ($row = mysqli_fetch_assoc($qr)) {
 
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="teacher_dasboard.php"> Admin</a>
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dashboard.php"> User</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -74,17 +74,8 @@ while ($row = mysqli_fetch_assoc($qr)) {
 
     <div class="container-fluid">
         <div class="row">
-            <?php include 'admin_menu.php'?>
+            <?php include 'user_menu.php'?>
 
-<<<<<<< Updated upstream
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-4">
-                <img src="anhmap.png"width="100%" height="auto";>
-=======
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 ">
-
-                <img src="map.png" style="width:auto;height:auto">
->>>>>>> Stashed changes
-            </main>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
