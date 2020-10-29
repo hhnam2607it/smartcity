@@ -28,13 +28,9 @@ if(isset($_SESSION['user_data'])){
 
 <body >
 
-<<<<<<< Updated upstream
-    <h1 class="h3 mb-3 font-weight-normal" style="text-align:center">Hệ thống quản lý đặt xe</h1>
-    
-=======
-    <h1 class="h3 mb-3 font-weight-normal" style="text-align:center">Hệ thống quản lý sinh viên</h1>
 
->>>>>>> Stashed changes
+    <h1 class="h3 mb-3 font-weight-normal" style="text-align:center">Hệ thống quản lý đặt xe</h1>
+
     <div class="container">
 
    	<div class="row">

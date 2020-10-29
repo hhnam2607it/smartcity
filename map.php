@@ -76,14 +76,9 @@ while ($row = mysqli_fetch_assoc($qr)) {
         <div class="row">
             <?php include 'admin_menu.php'?>
 
-<<<<<<< Updated upstream
+
             <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-md-4">
                 <img src="anhmap.png"width="100%" height="auto";>
-=======
-            <main role="main" class="col-md-10 ml-sm-auto col-lg-10 ">
-
-                <img src="map.png" style="width:auto;height:auto">
->>>>>>> Stashed changes
             </main>
         </div>
     </div>

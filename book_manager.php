@@ -13,6 +13,10 @@ if (isset($_SESSION['user_data'])) {
     //      order by chat_message.id");
     $data_send = array();
     $count = 0;
+    $qr = mysqli_query($con, "select * from bookcar where status=0");
+    while ($row = mysqli_fetch_assoc($qr)) {
+    	array_push($data_send, $row);
+    }
 
     // while ($row = mysqli_fetch_assoc($qr)) {
     //     array_push($data_send, $row);
@@ -23,6 +27,10 @@ if (isset($_SESSION['user_data'])) {
     // where chat_message.status_mes=0 and chat_message.to_user_id=$id
     // order by chat_message.from_user_id");
     $data_cancel = array();
+    $qr = mysqli_query($con, "select * from bookcar where status=2");
+    while ($row = mysqli_fetch_assoc($qr)) {
+    	array_push($data_cancel, $row);
+    }
     // while ($row = mysqli_fetch_assoc($qr)) {
     //     array_push($data_noseen, $row);
     // }
@@ -33,6 +41,10 @@ if (isset($_SESSION['user_data'])) {
     // order by chat_message.from_user_id");
     $data_start = array();
     $data_done=array();
+    $qr = mysqli_query($con, "select * from bookcar where status=1");
+    while ($row = mysqli_fetch_assoc($qr)) {
+    	array_push($data_done, $row);
+    }
     // while ($row = mysqli_fetch_assoc($qr)) {
     //     array_push($data_seen, $row);
     // }
@@ -84,12 +96,12 @@ if (isset($_SESSION['user_data'])) {
         <!-- Custom styles for this template -->
         <link href="dashboard.css" rel="stylesheet">
         <link href="chat.css" rel="stylesheet">
-       
+
     </head>
 
     <body>
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="teacher_dasboard.php"> Admin</a>
+            <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="admin_dasboard.php"> Admin</a>
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -105,7 +117,7 @@ if (isset($_SESSION['user_data'])) {
                 <?php include 'admin_menu.php' ?>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 
-                  
+
 
                         <ul class="nav nav-tabs">
                             <li class="active"><a class="btn btn-info" href="#send">Chuyến xe đã đặt</a></li>
@@ -117,6 +129,7 @@ if (isset($_SESSION['user_data'])) {
 
                         <div class="tab-content">
                             <div id="send" class="tab-pane fade in active">
+
                                 <div class="table-responsive">
                                     <table class="table table-striped table-sm" style="text-align: center;">
                                         <thead>
@@ -139,17 +152,28 @@ if (isset($_SESSION['user_data'])) {
                                             ?>
                                                 <tr>
                                                     <td><?php echo ++$count; ?></td>
-                                                    <td><?php echo $d['name']; ?></td>
+                                                    <td><?php echo $d['id_user']; ?></td>
+                                                    <td><?php echo "null"; ?></td>
+                                                    <td><?php echo $d['bfee']; ?></td>
+                                                    <td><?php echo $d['pos_start_id']; ?></td>
+                                                    <td><?php echo $d['end_start_id']; ?></td>
                                                     <td><?php echo $d['created_at']; ?></td>
-                                                    <td><?php echo $d['title']; ?></td>
-                                                   
+                                                    <td>
+                                                        <?php if ($d['status'] == '0') {
+                    											echo "Đang xử lý";
+                    										} elseif($d['status'] == '1')  {
+                    											echo "Hoàn thành";
+                    										} else{
+                    											echo "Hủy";
+                    										}?></td>
+
                                                     <td><a class="btn btn-info" name="seenmes" href="edit_message.php?id=<?php echo $d['id']; ?>">
                                                             Xem</a>
                                                             <a class="btn btn-info" name="edit" href="edit_message.php?id=<?php echo $d['id']; ?>">
                                                             Sửa</a>
                                                             <a class="btn btn-info" name="delete" href="edit_message_post.php?id=<?php echo $d['id']; ?>">
                                                             Xóa</a>
-                                                    </td> 
+                                                    </td>
 
                                                 </tr>
                                             <?php
@@ -164,7 +188,7 @@ if (isset($_SESSION['user_data'])) {
                                     <table class="table table-striped table-sm" style="text-align: center;">
                                         <thead>
                                             <tr>
-                                            
+
                                             <th>STT</th>
                                                 <th>Người đặt</th>
                                                 <th>Mã xe</th>
@@ -183,9 +207,20 @@ if (isset($_SESSION['user_data'])) {
                                             ?>
                                                 <tr>
                                                     <td><?php echo ++$count; ?></td>
-                                                    <td><?php echo $d['name']; ?></td>
+                                                    <td><?php echo $d['id_user']; ?></td>
+                                                    <td><?php echo "null"; ?></td>
+                                                    <td><?php echo $d['bfee']; ?></td>
+                                                    <td><?php echo $d['pos_start_id']; ?></td>
+                                                    <td><?php echo $d['end_start_id']; ?></td>
                                                     <td><?php echo $d['created_at']; ?></td>
-                                                    <td><?php echo $d['title']; ?></td>
+                                                    <td>
+                                                        <?php if ($d['status'] == '0') {
+                    											echo "Đang xử lý";
+                    										} elseif($d['status'] == '1')  {
+                    											echo "Hoàn thành";
+                    										} else{
+                    											echo "Hủy";
+                    										}?></td>
                                                     <td><a class="btn btn-info" name="seenmes" href="edit_message.php?id=<?php echo $d['id']; ?>&edit=false">
                                                             Xem</a>
 
@@ -206,7 +241,7 @@ if (isset($_SESSION['user_data'])) {
                                     <table class="table table-striped table-sm" style="text-align: center;">
                                         <thead>
                                             <tr>
-                                            
+
                                             <th>STT</th>
                                                 <th>Người đặt</th>
                                                 <th>Mã xe</th>
@@ -248,7 +283,7 @@ if (isset($_SESSION['user_data'])) {
                                     <table class="table table-striped table-sm" style="text-align: center;">
                                         <thead>
                                             <tr>
-                                            
+
                                             <th>STT</th>
                                                 <th>Người đặt</th>
                                                 <th>Mã xe</th>
@@ -267,9 +302,20 @@ if (isset($_SESSION['user_data'])) {
                                             ?>
                                                 <tr>
                                                     <td><?php echo ++$count; ?></td>
-                                                    <td><?php echo $d['name']; ?></td>
+                                                    <td><?php echo $d['id_user']; ?></td>
+                                                    <td><?php echo "null"; ?></td>
+                                                    <td><?php echo $d['bfee']; ?></td>
+                                                    <td><?php echo $d['pos_start_id']; ?></td>
+                                                    <td><?php echo $d['end_start_id']; ?></td>
                                                     <td><?php echo $d['created_at']; ?></td>
-                                                    <td><?php echo $d['title']; ?></td>
+                                                    <td>
+                                                        <?php if ($d['status'] == '0') {
+                                          echo "Đang xử lý";
+                                        } elseif($d['status'] == '1')  {
+                                          echo "Hoàn thành";
+                                        } else{
+                                          echo "Hủy";
+                                        }?></td>
                                                     <td><a class="btn btn-info" name="seenmes" href="edit_message.php?id=<?php echo $d['id']; ?>&edit=false">
                                                             Xem</a>
 
@@ -289,7 +335,7 @@ if (isset($_SESSION['user_data'])) {
                         </div>
                         <hr>
 
-                   
+
 
 
                 </main>
