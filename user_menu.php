@@ -22,10 +22,18 @@ echo'
             Bảng giá <span class="sr-only">(current)</span>
         </a>
         </li>
+
         <li class="nav-item">
-        <a class="nav-link active" href="user_history.php">
+        <a class="nav-link active" href="edit_info.php">
             <span class="iconify" data-icon="bi-chat-dots" data-inline="false"></span>
             Lịch sử <span class="sr-only">(current)</span>
+        </a>
+        </li>
+
+        <li class="nav-item">
+        <a class="nav-link active" href="edit_info.php">
+            <span class="iconify" data-icon="bi-bug-fill" data-inline="false"></span>
+            Thay đổi thông tin <span class="sr-only">(current)</span>
         </a>
         </li>
 

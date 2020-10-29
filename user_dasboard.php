@@ -3,16 +3,15 @@ session_start();
 include 'config.php';
 if (isset($_SESSION['user_data'])) {
 	if ($_SESSION['user_data']['usertype'] != 2) {
-
-		header("Location:admin_dasboard.php");
+		header("Location:user_dashboard.php");
 	}
 }
-$data = array();
-$count=0;
-$qr = mysqli_query($con, "select * from user");
-while ($row = mysqli_fetch_assoc($qr)) {
-	array_push($data, $row);
+function function_alert($message) {
+
+    // Display the alert box
+    echo "<script>alert('$message');</script>";
 }
+
 
 
 ?>
@@ -35,6 +34,9 @@ while ($row = mysqli_fetch_assoc($qr)) {
     </script>
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <meta name="theme-color" content="#563d7c">
+
+    <script src="modal.js"></script>
+
 
 
     <style>
@@ -59,8 +61,22 @@ while ($row = mysqli_fetch_assoc($qr)) {
 </head>
 
 <body>
+  <?php if ($_SESSION['booking_state']=='missing_start') {
+      function_alert("Bạn chưa chọn điểm xuất phát");
+    }elseif ($_SESSION['booking_state']=='missing_stop') {
+      function_alert("Bạn chưa chọn điểm đến");
+    }elseif ($_SESSION['booking_state']=='indifferent') {
+      function_alert("Điểm xuất phát và điểm đến không được trùng nhau");
+    }elseif ($_SESSION['booking_state']=='success') {
+      function_alert("Đặt xe thành công");
+    }elseif ($_SESSION['booking_state']=='error') {
+      function_alert("Đặt xe thất bại");
+    } elseif ($_SESSION['booking_state']=='pending') {
+      function_alert("Bạn chưa thể đặt chuyến xe mới.");
+    } ?>
+
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dashboard.php"> User</a>
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dasboard.php"> User</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -71,13 +87,70 @@ while ($row = mysqli_fetch_assoc($qr)) {
             </li>
         </ul>
     </nav>
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+      </div>
+
+    </div>
 
     <div class="container-fluid">
         <div class="row">
             <?php include 'user_menu.php'?>
 
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+              <div class="col-md-10 ml-sm-auto col-lg-8 px-md-4">
+                <form action="user_addbooking.php" method="post">
+                  <div class="booking">
+                    <br><br>
+                    <select name="start">
+                      <option value="0">--Chọn điểm đi--</option>
+                      <option value='Battery Area'>Battery Area</option>
+                      <option value='Cinema'>Cinema</option>
+                      <option value='Home'>Home</option>
+                      <option value='School'>School</option>
+                      <option value='Shopping Center'>Shopping Center</option>
+                      <option value='Zoo'>Zoo</option>
+                    </select>
+
+                    <select name="stop">
+                       <option value="0">--Chọn điểm đến--</option>
+											 <option value='Battery Area'>Battery Area</option>
+                       <option value='Cinema'>Cinema</option>
+                       <option value='Home'>Home</option>
+                       <option value='School'>School</option>
+                       <option value='Shopping Center'>Shopping Center</option>
+                       <option value='Zoo'>Zoo</option>
+                    </select>
+
+                    <script>
+                      function myFunction() {
+                        alert("Hello! I am an alert box!");
+                      }
+                    </script>
+                    <button class="btn btn-sm btn-dark" type="submit" onclick="booking_alert">Đặt xe</button>
+
+
+
+
+
+                  </div>
+
+                </form>
+                <br><br>
+
+              </div>
+                <center><img src="map.png" style="width:1000px;height:450px"></center>
+
+
+
+            </main>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
     </script>
     <script>
