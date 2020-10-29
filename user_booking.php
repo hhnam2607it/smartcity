@@ -6,10 +6,12 @@ if (isset($_SESSION['user_data'])) {
 		header("Location:user_dashboard.php");
 	}
 }
+function function_alert($message) {
 
-$data = array();
-$count=0;
-$qr = mysqli_query($con, "select * from bookcar where exists (select * from bookcar where status=0)" );
+    // Display the alert box
+    echo "<script>alert('$message');</script>";
+}
+
 
 
 ?>
@@ -32,6 +34,9 @@ $qr = mysqli_query($con, "select * from bookcar where exists (select * from book
     </script>
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <meta name="theme-color" content="#563d7c">
+
+    <script src="modal.js"></script>
+
 
 
     <style>
@@ -56,6 +61,20 @@ $qr = mysqli_query($con, "select * from bookcar where exists (select * from book
 </head>
 
 <body>
+  <?php if ($_SESSION['booking_state']=='missing_start') {
+      function_alert("Bạn chưa chọn điểm xuất phát");
+    }elseif ($_SESSION['booking_state']=='missing_stop') {
+      function_alert("Bạn chưa chọn điểm đến");
+    }elseif ($_SESSION['booking_state']=='indifferent') {
+      function_alert("Điểm xuất phát và điểm đến không được trùng nhau");
+    }elseif ($_SESSION['booking_state']=='success') {
+      function_alert("Đặt xe thành công");
+    }elseif ($_SESSION['booking_state']=='error') {
+      function_alert("Đặt xe thất bại");
+    } elseif ($_SESSION['booking_state']=='pending') {
+      function_alert("Bạn chưa thể đặt chuyến xe mới.");
+    } ?>
+
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dashboard.php"> User</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
@@ -68,6 +87,15 @@ $qr = mysqli_query($con, "select * from bookcar where exists (select * from book
             </li>
         </ul>
     </nav>
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Some text in the Modal..</p>
+      </div>
+
+    </div>
 
     <div class="container-fluid">
         <div class="row">
@@ -79,31 +107,32 @@ $qr = mysqli_query($con, "select * from bookcar where exists (select * from book
                   <div class="booking">
                     <br><br>
                     <select name="start">
-                       <option value=”0″>--Chọn điểm đi--</option>
-                       <option value=”battery″>Battery Area</option>
-                       <option value=”cinema″>Cinema</option>
-                       <option value=”home″>Home</option>
-                       <option value=”school″>School</option>
-                       <option value=”shopping″>Shopping Center</option>
-                       <option value="zoo">Zoo</option>
+                      <option value="0">--Chọn điểm đi--</option>
+                      <option value='Battery Area'>Battery Area</option>
+                      <option value='Cinema'>Cinema</option>
+                      <option value='Home'>Home</option>
+                      <option value='School'>School</option>
+                      <option value='Shopping Center'>Shopping Center</option>
+                      <option value='Zoo'>Zoo</option>
                     </select>
 
                     <select name="stop">
                        <option value="0">--Chọn điểm đến--</option>
-                       <option value="battery">Battery Area</option>
-                       <option value="cinema">Cinema</option>
-                       <option value="home">Home</option>
-                       <option value="school">School</option>
-                       <option value="shopping">Shopping Center</option>
-                       <option value="zoo">Zoo</option>
+											 <option value='Battery Area'>Battery Area</option>
+                       <option value='Cinema'>Cinema</option>
+                       <option value='Home'>Home</option>
+                       <option value='School'>School</option>
+                       <option value='Shopping Center'>Shopping Center</option>
+                       <option value='Zoo'>Zoo</option>
                     </select>
-                    <?php if ($qr) {
-                        echo "ko dc chon";
-                      } else {
-                        echo "chon de";
-                      } ?>
 
-                    <button class="btn btn-sm btn-dark" type="submit">Đặt xe</button>
+                    <script>
+                      function myFunction() {
+                        alert("Hello! I am an alert box!");
+                      }
+                    </script>
+                    <button class="btn btn-sm btn-dark" type="submit" onclick="booking_alert">Đặt xe</button>
+
 
 
 
@@ -116,9 +145,12 @@ $qr = mysqli_query($con, "select * from bookcar where exists (select * from book
               </div>
                 <center><img src="map.png" style="width:1000px;height:450px"></center>
 
+
+
             </main>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
     </script>
     <script>

@@ -14,10 +14,10 @@ if(isset($_REQUEST['username']) && isset($_REQUEST['password'])){
 		$data=mysqli_fetch_assoc($qr);
 		$_SESSION['user_data'] = $data;
 		if($data['usertype'] == 1){
-			header("Location:admin_dashboard.php");
+			header("Location:admin_dasboard.php");
 		}
 		else{
-			header("Location:user_dashboard.php");
+			header("Location:user_dasboard.php");
 		}
 
 	}

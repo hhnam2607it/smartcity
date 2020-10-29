@@ -3,17 +3,24 @@ session_start();
 include 'config.php';
 if (isset($_SESSION['user_data'])) {
 	if ($_SESSION['user_data']['usertype'] != 2) {
-		header("Location:user_dashboard.php");
+		header("Location:admin_dasboard.php");
 	}
 }
-$id = $_SESSION['user_data']['id'];
 
-$data = array();
+
+
+$id = $_SESSION['user_data']['id'];
+//$data = array();
 $count=0;
-$qr = mysqli_query($con, "select * from bookcar where id_user=$id and status!=0");
-while ($row = mysqli_fetch_assoc($qr)) {
-	array_push($data, $row);
+$qr = mysqli_query($con, "select * from bookcar where id_user=$id and status=0");
+if(mysqli_num_rows($qr)>0){
+  $data=mysqli_fetch_assoc($qr);
+  $cancel=$data['id'];
+  $_SESSION['cancel_id'] = $cancel;
+  //echo $cancel;
+  //exit();
 }
+
 
 
 ?>
@@ -61,7 +68,7 @@ while ($row = mysqli_fetch_assoc($qr)) {
 
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dashboard.php"> User</a>
+        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="user_dasboard.php">User</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse"
             data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -78,41 +85,39 @@ while ($row = mysqli_fetch_assoc($qr)) {
             <?php include 'user_menu.php'?>
 
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
+
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm" style="text-align: center;">
                         <thead>
                             <tr>
-                                <th>STT</th>
                                 <th>Điểm đi</th>
                                 <th>Điểm đến</th>
-                                <th>Trạng thái</th>
-																<th>Chi phí</th>
-                                <th>Thời gian</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-							foreach ($data as $d) {
-							?>
+
+
                             <tr>
-                                <td><?php echo ++$count; ?></td>
-                                <td><?php echo $d['pos_start_id']; ?></td>
-                                <td><?php echo $d['end_start_id']; ?></td>
+
+                                <td><?php if (mysqli_num_rows($qr)>0) {
+                                  echo $data['pos_start_id'];
+                                } ?></td>
+                                <td><?php if (mysqli_num_rows($qr)>0){
+                                  echo $data['end_start_id'];
+                                }?></td>
                                 <td>
-                                    <?php if ($d['status'] == '0') {
-											echo "Đang xử lý";
-										} elseif($d['status'] == '1')  {
-											echo "Hoàn thành";
-										} else{
-											echo "Hủy";
-										}?>
-																<td><?php echo $d['bfee']; ?></td>
-                                <td><?php echo $d['created_at']; ?></td>
+                                    <a class="btn btn-info" href="user_cancel.php">
+                                        Hủy</a>
+                                </td>
+
                             </tr>
                             <?php
-							}
+
 							?>
                         </tbody>
                     </table>
